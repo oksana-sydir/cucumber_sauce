@@ -1,0 +1,28 @@
+{
+    "standardUser": {
+        "userName": "standard_user",
+        "lastName": "Smith",
+        "password": "secret_sauce"
+    },
+    "lockedOutUser": {
+        "userName": "locked_out_user",
+        "password": "secret_sauce"
+    },
+    "problemUser": {
+        "userName": "problem_user",
+        "password": "secret_sauce"
+    },
+    "performanceGlitchUser": {
+        "userName": "performance_glitch_user",
+        "password": "secret_sauce"
+    },
+    "errorUser": {
+        "userName": "error_user",
+        "password": "secret_sauce"
+    },
+    "visualUser": {
+        "userName": "visual_user",
+        "password": "secret_sauce"
+    }
+
+}
