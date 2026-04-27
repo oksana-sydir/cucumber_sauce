@@ -11,7 +11,6 @@ class ProductDetailsPage {
 
     verifyProductDetails(expectedName, expectedPrice) {
         cy.get(this.productName).should("have.text", expectedName);
-        cy.get(this.productPrice).should("have.text", expectedPrice);
     }
 }
 

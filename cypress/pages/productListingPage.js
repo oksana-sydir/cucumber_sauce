@@ -83,7 +83,6 @@ class ProductListingPage {
     }
 
     openAboutPage() {
-        this.openBurgerMenu();
         cy.get(this.aboutLink).should("be.visible").click();
     }
 
@@ -97,6 +96,14 @@ class ProductListingPage {
             cy.get(this.priceOfFirstProduct).should("have.text", price);
         } else if (productPosition === 6) {
             cy.get(this.priceOfLastProduct).should("have.text", price);
+        }
+    }
+
+    verifyProductName(productPosition, productName) {
+        if (productPosition === 1) {
+            cy.get(this.productNameLink).eq(0).should("have.text", productName);
+        } else if (productPosition === 6) {
+            cy.get(this.productNameLink).eq(5).should("have.text", productName);
         }
     }
 }
