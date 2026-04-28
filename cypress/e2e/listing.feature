@@ -4,16 +4,16 @@ Feature: Product Listing Page
     And I'm on the Product Listing Page
 
   Scenario: Sort by Price (low to high)
-    When I select the filter "Price (low to high)"
-    Then The products should be sorted by price in ascending order
-
+    When I sort products by "Price (low to high)" dynamically
+    Then the products prices should match the programmatically sorted list
+    
   Scenario: Sort by Price (high to low)
-    When I select the filter "Price (high to low)"
-    Then The products should be sorted by price in descending order
+    When I sort products by "Price (high to low)" dynamically
+    Then the products prices should match the programmatically sorted list
 
   Scenario: Sort by Name (Z to A)
-    When I select the filter "Name (Z to A)"
-    Then The products should be sorted by name in descending order
+    When I sort products by "Name (Z to A)" dynamically
+    Then the products names should match the programmatically sorted list
 
   Scenario: Open the burger menu
     When I click the burger menu button
