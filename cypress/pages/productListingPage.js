@@ -31,11 +31,19 @@ class ProductListingPage {
     }
 
     get priceOfFirstProduct() {
-        return ':nth-child(1) > [data-test="inventory-item-description"] > .pricebar > [data-test="inventory-item-price"]';
+        return cy.get(this.productPrice).first();
     }
 
-    get priceOfLastProduct() {
-        return ':nth-child(6) > [data-test="inventory-item-description"] > .pricebar > [data-test="inventory-item-price"]';
+    getLastProductPrice() {
+        return cy.get(this.productPrices).last();
+    }
+
+    get productPrices() {
+        return '[data-test="inventory-item-price"]';
+    }
+
+    get productNames() {
+        return ".inventory_item_name";
     }
 
     get logoutLink() {
@@ -105,6 +113,44 @@ class ProductListingPage {
         } else if (productPosition === 6) {
             cy.get(this.productNameLink).eq(5).should("have.text", productName);
         }
+    }
+
+    getAllPrices() {
+        return cy.get(this.productPrices).then(($prices) => {
+            return [...$prices].map((el) => parseFloat(el.innerText.replace("$", "")));
+        });
+    }
+
+    // Метод для збору всіх назв товарів у масив
+    getAllNames() {
+        return cy.get(this.productNames).then(($names) => {
+            return [...$names].map((el) => el.innerText.trim());
+        });
+    }
+
+    getProgrammaticallySortedPrices(prices, direction = "asc") {
+        const sorted = [...prices];
+        return direction === "asc" ? sorted.sort((a, b) => a - b) : sorted.sort((a, b) => b - a);
+    }
+
+    verifyAllPricesSorted(expectedPrices) {
+        this.getAllPrices().then((actualPrices) => {
+            expect(actualPrices).to.deep.equal(expectedPrices);
+        });
+    }
+
+    getProgrammaticallySortedNames(names, direction = "asc") {
+        const sorted = [...names];
+        return direction === "asc"
+            ? sorted.sort((a, b) => a.localeCompare(b))
+            : sorted.sort((a, b) => b.localeCompare(a));
+    }
+
+    // Метод для верифікації назв
+    verifyAllNamesSorted(expectedNames) {
+        this.getAllNames().then((actualNames) => {
+            expect(actualNames).to.deep.equal(expectedNames);
+        });
     }
 }
 

@@ -10,6 +10,10 @@ class CartPage {
         return "span.title";
     }
 
+    get cartBadgeCount() {
+        return ".shopping_cart_badge"
+    }
+
     get removeButton() {
         return (productName) => `[data-test="remove-${productName}"]`;
     }
@@ -28,20 +32,46 @@ class CartPage {
     }
 
     verifyProductInCart(productName) {
-        cy.get(this.productName).should("be.visible").and("have.text", productName);
+        // Convert product name from "sauce-labs-backpack" to "Sauce Labs Backpack"
+        const displayName = productName
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+        cy.get(this.productName).should("be.visible").and("have.text", displayName);
     }
 
-    verifyCounterAfterAddingProduct(productName,expectedCount) {
-       cy.get(`[data-test="remove-${productName}"]`).should("have.text", "Remove");
-        cy.get(".shopping_cart_badge").should("have.text", expectedCount);
-        }
+    verifyCounterAfterAddingProduct(productName, expectedCount) {
+        cy.get(`[data-test="remove-${productName}"]`).should("have.text", "Remove");
+        this.cartBadgeCount.should("have.text", expectedCount);
+    }
 
     removeProductFromCart(productName) {
         cy.get(this.removeButton(productName)).should("be.visible").click();
     }
 
     verifyCounterAfterRemovingProduct() {
-        cy.get(".shopping_cart_badge").should("not.exist");
+        this.cartBadgeCount.should("not.exist");
+    }
+
+    verifyProductNotInCart(productName) {
+        
+        cy.contains(this.productName, displayName).should("not.exist");
+    }
+
+    verifyCartBadgeCount(expectedCount) {
+        if (expectedCount === 0) {
+            this.cartBadgeCount.should("not.exist");
+        } else {
+            this.cartBadgeCount.should("have.text", expectedCount);
+        }
+    }
+
+    clickButtonForProduct(buttonText, productName) {
+        cy.get(`[data-test="remove-${productName}"]`)
+        .parent()
+        .contains("button", buttonText)
+        .should("be.visible")
+        .click();
     }
 
     continueShopping() {
