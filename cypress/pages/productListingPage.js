@@ -63,7 +63,13 @@ class ProductListingPage {
     }
 
     openProductDetails(productName) {
-        cy.get(this.productNameLink).contains(productName).should("be.visible").click();
+        // Convert product name from "sauce-labs-backpack" to "Sauce Labs Backpack"
+        const displayName = productName
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+        // Find the product by its display name and click it
+        cy.get(this.productNameLink).contains(displayName).should("be.visible").click();
     }
 
     removeFromCart(productName) {

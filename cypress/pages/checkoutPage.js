@@ -19,15 +19,15 @@ class CheckoutPage {
     }
 
     get firstNameField() {
-        return "input[name='firstName']";
+        return "[data-test='firstName']";
     }
 
     get lastNameField() {
-        return "input[name='lastName']";
+        return "[data-test='lastName']";
     }
 
     get postalCodeField() {
-        return "input[name='postalCode']";
+        return "[data-test='postalCode']";
     }
 
     get cancelButton() {
