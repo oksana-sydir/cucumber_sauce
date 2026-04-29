@@ -11,7 +11,7 @@ class CartPage {
     }
 
     get cartBadgeCount() {
-        return ".shopping_cart_badge"
+        return ".shopping_cart_badge";
     }
 
     get removeButton() {
@@ -37,12 +37,17 @@ class CartPage {
         .split("-")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
-        cy.get(this.productName).should("be.visible").and("have.text", displayName);
+        // Find the product row by its remove button, then verify the product name within that row
+        cy.get(this.removeButton(productName))
+        .closest(".cart_item")
+        .find(this.productName)
+        .should("be.visible")
+        .and("have.text", displayName);
     }
 
     verifyCounterAfterAddingProduct(productName, expectedCount) {
         cy.get(`[data-test="remove-${productName}"]`).should("have.text", "Remove");
-        this.cartBadgeCount.should("have.text", expectedCount);
+        cy.get(this.cartBadgeCount).should("have.text", expectedCount);
     }
 
     removeProductFromCart(productName) {
@@ -50,19 +55,19 @@ class CartPage {
     }
 
     verifyCounterAfterRemovingProduct() {
-        this.cartBadgeCount.should("not.exist");
+        cy.get(this.cartBadgeCount).should("not.exist");
     }
 
     verifyProductNotInCart(productName) {
-        
-        cy.contains(this.productName, displayName).should("not.exist");
+        // Check that the remove button for this product doesn't exist
+        cy.get(this.removeButton(productName)).should("not.exist");
     }
 
     verifyCartBadgeCount(expectedCount) {
         if (expectedCount === 0) {
-            this.cartBadgeCount.should("not.exist");
+            cy.get(this.cartBadgeCount).should("not.exist");
         } else {
-            this.cartBadgeCount.should("have.text", expectedCount);
+            cy.get(this.cartBadgeCount).should("have.text", expectedCount);
         }
     }
 
