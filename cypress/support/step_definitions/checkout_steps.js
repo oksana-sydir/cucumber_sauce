@@ -19,16 +19,8 @@ Given("I proceed to the checkout first step", () => {
     CartPage.proceedToCheckout();
 });
 
-Then("The checkout first step should be opened", () => {
-    CheckoutPage.verifyStepOne();
-});
-
 When("I try to proceed to the checkout second step with empty all fields", () => {
     CheckoutPage.continueToOverview();
-});
-
-Then("The error messages {string} should be displayed", (errorMessage) => {
-    CheckoutPage.verifyShippingValidation(errorMessage);
 });
 
 When("I fill in the first name field with {string}", (firstName) => {
@@ -47,10 +39,6 @@ When("I click on the {string} button", (buttonText) => {
     }
 });
 
-Then("The error message {string} should be displayed", (errorMessage) => {
-    CheckoutPage.verifyShippingValidation(errorMessage);
-});
-
 When("I fill in the last name field with {string}", (lastName) => {
     CheckoutPage.fillLastNameField(lastName);
 });
@@ -59,20 +47,32 @@ When("I fill in the postal code field with {string}", (postalCode) => {
     CheckoutPage.fillPostalCodeField(postalCode);
 });
 
-Then("The checkout second step should be opened", () => {
-    CheckoutPage.verifyStepTwo();
-});
-
-Then("The cart should be opened", () => {
-    CartPage.verifyCartIsOpened();
-});
-
 When("I proceed to the checkout second step with valid data", () => {
     CheckoutPage.fillFirstNameField(standardUser.userName);
     CheckoutPage.fillLastNameField(standardUser.lastName);
     CheckoutPage.fillPostalCodeField("12345");
     CheckoutPage.continueToOverview();
     CheckoutPage.verifyStepTwo();
+});
+
+Then("The checkout first step should be opened", () => {
+    CheckoutPage.verifyStepOne();
+});
+
+Then("The error messages {string} should be displayed", (errorMessage) => {
+    CheckoutPage.verifyShippingValidation(errorMessage);
+});
+
+Then("The error message {string} should be displayed", (errorMessage) => {
+    CheckoutPage.verifyShippingValidation(errorMessage);
+});
+
+Then("The checkout second step should be opened", () => {
+    CheckoutPage.verifyStepTwo();
+});
+
+Then("The cart should be opened", () => {
+    CartPage.verifyCartIsOpened();
 });
 
 Then("The products listing page should be opened", () => {
